@@ -1,6 +1,6 @@
 ---
-title: html-parser
-emoji: 🤗
+title: Html parser viewer
+emoji: 🪁
 colorFrom: blue
 colorTo: red
 sdk: streamlit
