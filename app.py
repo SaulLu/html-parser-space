@@ -1,17 +1,26 @@
 import json
 import os
+from enum import Enum
+
 import streamlit as st
 import streamlit.components.v1 as components
 import wget
+from bs4 import BeautifulSoup as bs
 
 st.set_page_config(page_title="HTML parser", layout="wide")
 st.title("html parser viewer")
 
-col_button_1, col_button_2 = st.columns(2)
+col_button_1, col_button_2, col_button_3 = st.columns(3)
 col1, col2, col3 = st.columns(3)
 
 data_id = "data_100"
 extraction_method = "extraction-method-1"
+
+
+class HtmlRendering(Enum):
+    browser = 1
+    raw = 2
+
 
 options = [
     "data_100",
@@ -38,6 +47,11 @@ with col_button_1:
 with col_button_2:
     extraction_method = st.selectbox(
         "extraction method", ["extraction-method-1", "extraction-method-2"]
+    )
+
+with col_button_3:
+    html_rendering = st.selectbox(
+        "Html rendering", [HtmlRendering.browser.name, HtmlRendering.raw.name]
     )
 
 output_directory = "out_dir"
@@ -69,6 +83,7 @@ with col1:
 
 with col2:
     st.subheader("HTML")
+
     file_name = "html.html"
     path_file_dir = os.path.join(output_directory, data_id, extraction_method)
     path_file = os.path.join(path_file_dir, file_name)
@@ -80,7 +95,12 @@ with col2:
 
     with open(path_file, "r") as f:
         html = f.read()
-    components.html(html, height=2000, scrolling=True)
+    if html_rendering == HtmlRendering.browser.name:
+        components.html(html, height=2000, scrolling=True)
+    else:
+        soup = bs(html)  # make BeautifulSoup
+        prettry_html = soup.prettify()  # prettify the html
+        st.code(prettry_html)
 
 with col3:
     st.subheader("Text")
