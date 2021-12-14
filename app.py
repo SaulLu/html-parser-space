@@ -46,7 +46,7 @@ with col_button_1:
 
 with col_button_2:
     extraction_method = st.selectbox(
-        "extraction method", ["extraction-method-1", "extraction-method-2"]
+        "extraction method", ["extraction-method-1", "extraction-method-2", "extraction-method-3"]
     )
 
 with col_button_3:
